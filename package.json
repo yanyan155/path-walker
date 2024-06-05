@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "lint": "eslint ./src ./libs ./config ./middleware server.js socket.js",
+    "dev": "webpack --mode development",
+    "server": "node server.js",
+    "start": "npm run dev & npm run server"
+  },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "beautiful-react-hooks": "^0.31.0",
@@ -11,11 +17,10 @@
     "drivelist": "^9.2.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "http.response": "^1.1.2",
-    "jquery": "^3.5.1",
     "morgan": "^1.10.0",
+    "node-gyp": "^10.1.0",
     "prop-types": "^15.7.2",
-    "react-dom": "^16.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0",
     "react-lazyload": "^3.1.0",
     "read-dir": "^0.2.0",
     "readdir": "^1.0.2",
@@ -46,12 +51,6 @@
   "peerDependencies": {
     "react": "^16.14.0",
     "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0"
-  },
-  "scripts": {
-    "lint": "eslint ./src ./libs ./config ./middleware server.js socket.js",
-    "dev": "webpack --mode development",
-    "server": "node server.js",
-    "start": "npm run dev & npm run server"
   },
   "pre-commit": [
     "lint"

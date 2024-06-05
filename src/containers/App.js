@@ -9,7 +9,6 @@ const redux = require('redux');
 import rootReducer from '../reducers';
 import { useDidMount } from 'beautiful-react-hooks';
 import { v4 as uuidv4 } from 'uuid';
-import $ from 'jquery';
 
 const store = redux.createStore(rootReducer);
 
@@ -17,43 +16,35 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
   const errorMessage = 'Something went wrong! Please try again later.';
 
   // todo make replace divs with table
-  // todo will key={uuidv4()} each time updates on rerendiring page??
+  // todo will key={uuidv4()} each time updates on rerendiring page --- think about caching strategy??
 
   useDidMount(() => {
     createSocket();
   });
 
+  const logOutForm = React.createRef();
+
   function logoutClick() {
-    $('#logout-form').submit();
+    logOutForm.current.submit();
   }
 
   function transformFilesArr(files, newPath, uuidv4) {
     return files.map(el => {
-      if (newPath === '/') {
-        return {
-          lazyLoadId: uuidv4(),
-          fileId: uuidv4(),
-          name: el,
-          absolutePath: `${el}`,
-          size: 0,
-          type: 'disk',
-          date: 0,
-          isError: false,
-          isLoaded: true,
-        };
-      } else {
-        return {
-          lazyLoadId: uuidv4(),
-          fileId: uuidv4(),
-          name: el,
-          absolutePath: `${newPath}/${el}`,
-          size: 0,
-          type: 'directory',
-          date: 0,
-          isError: false,
-          isLoaded: false,
-        };
-      }
+      const absolutePath = newPath === '/' ? `${el}` : `${newPath}/${el}`;
+      const isLoaded = newPath === '/' ? true : false;
+      const type = newPath === '/' ? 'disk' : 'directory';
+
+      return {
+        lazyLoadId: uuidv4(),
+        fileId: uuidv4(),
+        name: el,
+        absolutePath,
+        size: 0,
+        type,
+        date: 0,
+        isError: false,
+        isLoaded,
+      };
     });
   }
 
@@ -93,6 +84,7 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
       }, 3000);
     }
   }
+
   return (
     <div>
       <div className="d-flex">
@@ -110,6 +102,7 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
           action="/logout"
           method="post"
           className="opacity-0"
+          ref={logOutForm}
         ></form>
       </div>
       {fileText || isErrorApp ? (

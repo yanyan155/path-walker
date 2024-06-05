@@ -1,5 +1,4 @@
 import React from 'react';
-const $ = require('jquery');
 import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import loginStore from '../reducers/loginStore';
@@ -9,11 +8,11 @@ import PropTypes from 'prop-types';
 
 const store = redux.createStore(loginStore);
 
-async function loginSubmit(event, setError) {
+async function loginSubmit(event, setError, name, password) {
   event.preventDefault();
   const data = {
-    name: $('#name').val(),
-    password: $('#password').val(),
+    name,
+    password,
   };
 
   const response = await fetch('/login', {
@@ -32,10 +31,17 @@ async function loginSubmit(event, setError) {
 }
 
 const Login = ({ setError, status, responseText }) => {
+  const nameInputRef = React.createRef();
+  const passwordInputRef = React.createRef();
   return (
     <form
       onSubmit={event => {
-        loginSubmit(event, setError);
+        loginSubmit(
+          event,
+          setError,
+          nameInputRef.current.value,
+          passwordInputRef.current.value
+        );
       }}
       action="/login"
       method="post"
@@ -51,6 +57,7 @@ const Login = ({ setError, status, responseText }) => {
           type="text"
           placeholder="name"
           minLength="2"
+          ref={nameInputRef}
         />
       </div>
       <div className="form-group">
@@ -61,6 +68,7 @@ const Login = ({ setError, status, responseText }) => {
           type="password"
           placeholder="password"
           minLength="2"
+          ref={passwordInputRef}
         />
       </div>
       <button type="submit" className="btn btn-primary">

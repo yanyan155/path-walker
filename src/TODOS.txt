@@ -1,0 +1,14 @@
+review TODOs in code
+add user name when he loggen in
+get rid of react-beatiful hook: replace with React hooks
+refactor React components
+refactor html - css
+add to webpack comand to autoopen local server during 'npm run start'
+https://webpack.js.org/configuration/dev-server/#devserver-open
+
+investigate lint strategy
+investigate package.json dependencies for updating, replacing or removing
+bump react - react dom - redux version (investigate peer-dependencies)
+bump express version (investigate peer-dependencies)
+
+replace proptypes with typescript
