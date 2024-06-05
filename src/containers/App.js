@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 const redux = require('redux');
 import rootReducer from '../reducers';
 import { useDidMount } from 'beautiful-react-hooks';
-import { createSocket, transformFilesArr } from './utils/socketHelpers.js';
+import { createSocket, transformFilesArr } from './utils/socketHelpers';
 
 const store = redux.createStore(rootReducer);
 
@@ -19,7 +19,7 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
   // todo will key={uuidv4()} each time updates on rerendiring page --- think about caching strategy??
 
   useDidMount(() => {
-    createSocket(setUsers, updateFiles, transformFilesArr);
+    createSocket(setUsers, updateFiles, transformFilesArr, path);
   });
 
   const logOutForm = React.createRef();

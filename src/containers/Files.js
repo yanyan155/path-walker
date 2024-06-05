@@ -5,7 +5,14 @@ import { connect } from 'react-redux';
 import LazyLoad from 'react-lazyload';
 import { useDidMount } from 'beautiful-react-hooks';
 import PropTypes from 'prop-types';
-import { transformFilesArr } from './utils/socketHelpers.js';
+
+import {
+  findPathUI,
+  itemWrapperClick,
+  setSortEvent,
+  setFilterEvent,
+  receiveFiles,
+} from './utils/fileHelpers';
 
 import {
   setPathApp,
@@ -16,7 +23,6 @@ import {
   setFilterFiles,
   setSortFiles,
 } from '../actions';
-import config from '../../config';
 
 function Files({
   path,
@@ -32,73 +38,25 @@ function Files({
 }) {
   useDidMount(() => {
     if (path !== '/') {
-      receiveFiles(path, '', uuidv4);
+      receiveFiles(
+        path,
+        '',
+        uuidv4,
+        setPath,
+        setIsAdmin,
+        setFiles,
+        setFilesText,
+        setIsError
+      );
     }
   });
-
-  function findPath(pathNode) {
-    if (pathNode === '..') {
-      const index = path.lastIndexOf('/');
-      if (path[index - 1] === ':' && index !== path.length - 1) {
-        return path.slice(0, index + 1);
-      } else if (path[index - 1] === ':' && index === path.length - 1) {
-        return '/';
-      }
-      return path.slice(0, index);
-    } else if (path === '/') {
-      return pathNode;
-    } else if (path.length === 3) {
-      return path.concat(pathNode);
-    }
-    return path.concat(`/${pathNode}`);
-  }
-
-  function itemWrapperClick(event) {
-    let elem = event.target;
-    if (!elem.classlist?.contains('item-wrapper')) {
-      elem = elem.closest('.item-wrapper');
-    }
-    const path = findPath(elem.dataset.path);
-    const typeSpan = elem.querySelector('.file-type');
-    const type = typeSpan?.innerHTML ?? '';
-    receiveFiles(path, type, uuidv4);
-  }
-
-  function setSortEvent(event) {
-    const elem = event.target;
-    setSortFiles(sortType, elem.dataset.sorttype);
-  }
-
-  function setFilterEvent(event) {
-    const elem = event.target;
-    setFilterFiles(elem.value);
-  }
-
-  async function receiveFiles(path, type, uuidv4) {
-    try {
-      const json = await fetch(
-        `${config.searchUrl}search?q=${encodeURIComponent(path)}&type=${type}`
-      );
-      const data = await json.json();
-      if (data.files) {
-        setPath(data.path);
-        setIsAdmin(data.isAdmin);
-        setFiles(transformFilesArr(data.files, data.path, uuidv4));
-      } else if (data.fileText) {
-        setPath(data.path);
-        setFilesText(data.fileText);
-      }
-    } catch (err) {
-      setIsError(true);
-    }
-  }
 
   return (
     <div>
       <div className="form-group">
         <label htmlFor="search">search</label>
         <input
-          onChange={setFilterEvent}
+          onChange={event => setFilterEvent(event, setFilterFiles)}
           id="search"
           name="search"
           type="text"
@@ -107,21 +65,33 @@ function Files({
         />
       </div>
       <div className="row">
-        <div onClick={setSortEvent} data-sorttype="NAME" className="col-2">
+        <div
+          onClick={event => setSortEvent(event, setSortFiles, sortType)}
+          data-sorttype="NAME"
+          className="col-2"
+        >
           Name
         </div>
         <div className="row col-10">
-          <div onClick={setSortEvent} data-sorttype="SIZE" className="col-2">
+          <div
+            onClick={event => setSortEvent(event, setSortFiles, sortType)}
+            data-sorttype="SIZE"
+            className="col-2"
+          >
             Size, bites
           </div>
           <div
-            onClick={setSortEvent}
+            onClick={event => setSortEvent(event, setSortFiles, sortType)}
             data-sorttype="DIRECTORY"
             className="col-2"
           >
             Type
           </div>
-          <div onClick={setSortEvent} data-sorttype="DATE" className="col-8">
+          <div
+            onClick={event => setSortEvent(event, setSortFiles, sortType)}
+            data-sorttype="DATE"
+            className="col-8"
+          >
             Last modified date
           </div>
         </div>
@@ -129,7 +99,19 @@ function Files({
       {path !== '/' && (
         <LazyLoad key={uuidv4()}>
           <div
-            onClick={itemWrapperClick}
+            onClick={event =>
+              itemWrapperClick(
+                event,
+                findPathUI,
+                receiveFiles,
+                setPath,
+                setIsAdmin,
+                setFiles,
+                setFilesText,
+                setIsError,
+                path
+              )
+            }
             className="item-wrapper row"
             key={uuidv4()}
             data-path=".."
@@ -141,7 +123,7 @@ function Files({
       {files.map(el => {
         return (
           <LazyLoad key={el.lazyLoadId}>
-            <ListComponent itemWrapperClick={itemWrapperClick} item={el} />
+            <ListComponent item={el} />
           </LazyLoad>
         );
       })}

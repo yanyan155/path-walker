@@ -1,9 +1,22 @@
 import React from 'react';
 import config from '../../config';
-import { updateDetailsSuccessItem, updateDetailsErrorItem } from '../actions';
+import {
+  updateDetailsSuccessItem,
+  updateDetailsErrorItem,
+  setPathApp,
+  setFilesApp,
+  setFilesTextApp,
+  setIsErrorApp,
+  setIsAdminApp,
+} from '../actions';
 import { connect } from 'react-redux';
 import { useDidMount } from 'beautiful-react-hooks';
 import PropTypes from 'prop-types';
+import {
+  findPathUI,
+  itemWrapperClick,
+  receiveFiles,
+} from './utils/fileHelpers';
 
 function ListComponentEl({
   isAdmin,
@@ -15,10 +28,14 @@ function ListComponentEl({
   isError,
   updateDetailsSuccess,
   updateDetailsError,
-  itemWrapperClick,
   isLoaded,
   fileId,
   path,
+  setPath,
+  setIsAdmin,
+  setFiles,
+  setFilesText,
+  setIsError,
 }) {
   useDidMount(() => {
     getDetails(
@@ -40,10 +57,6 @@ function ListComponentEl({
   function removeClick(event) {
     event.stopPropagation();
     deleteFileAjax(absolutePath, type === 'directory');
-  }
-
-  function pathWalk(event) {
-    itemWrapperClick(event);
   }
 
   async function deleteFileAjax(path, isDirectory) {
@@ -74,7 +87,19 @@ function ListComponentEl({
       className="item-wrapper row"
       key={fileId}
       data-path={name}
-      onClick={pathWalk}
+      onClick={event =>
+        itemWrapperClick(
+          event,
+          findPathUI,
+          receiveFiles,
+          setPath,
+          setIsAdmin,
+          setFiles,
+          setFilesText,
+          setIsError,
+          path
+        )
+      }
     >
       <span className="col-2 item-name">{name}</span>
       {isLoaded && isError && <span>{errorMessage}</span>}
@@ -118,13 +143,12 @@ ListComponentEl.propTypes = {
   isError: PropTypes.bool.isRequired,
   updateDetailsSuccess: PropTypes.func.isRequired,
   updateDetailsError: PropTypes.func.isRequired,
-  itemWrapperClick: PropTypes.func.isRequired,
   isLoaded: PropTypes.bool.isRequired,
   fileId: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = ({ appStore }, { item, itemWrapperClick }) => ({
+const mapStateToProps = ({ appStore }, { item }) => ({
   path: appStore.path,
   absolutePath: item.absolutePath,
   name: item.name,
@@ -133,7 +157,6 @@ const mapStateToProps = ({ appStore }, { item, itemWrapperClick }) => ({
   isLoaded: item.isLoaded,
   date: item.date,
   isError: item.isError,
-  itemWrapperClick,
   isAdmin: appStore.isAdmin,
   fileId: item.fileId,
 });
@@ -142,6 +165,11 @@ const mapDispatchToProps = dispatch => ({
   updateDetailsSuccess: (fileId, size, isDirectory, date) =>
     dispatch(updateDetailsSuccessItem(fileId, size, isDirectory, date)),
   updateDetailsError: fileId => dispatch(updateDetailsErrorItem(fileId)),
+  setPath: path => dispatch(setPathApp(path)),
+  setFiles: files => dispatch(setFilesApp(files)),
+  setFilesText: fileText => dispatch(setFilesTextApp(fileText)),
+  setIsError: isErrorApp => dispatch(setIsErrorApp(isErrorApp)),
+  setIsAdmin: idAdmin => dispatch(setIsAdminApp(idAdmin)),
 });
 
 const ListComponent = connect(
