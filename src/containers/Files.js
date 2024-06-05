@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import LazyLoad from 'react-lazyload';
 import { useDidMount } from 'beautiful-react-hooks';
 import PropTypes from 'prop-types';
+import { transformFilesArr } from './utils/socketHelpers.js';
 
 import {
   setPathApp,
@@ -28,7 +29,6 @@ function Files({
   sortType,
   setFilterFiles,
   setSortFiles,
-  transformFilesArr,
 }) {
   useDidMount(() => {
     if (path !== '/') {
@@ -157,17 +157,15 @@ Files.propTypes = {
   setFilesText: PropTypes.func.isRequired,
   setIsError: PropTypes.func.isRequired,
   sortType: PropTypes.string.isRequired,
-  transformFilesArr: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ appStore, listView }, { transformFilesArr }) => ({
+const mapStateToProps = ({ appStore, listView }) => ({
   files: filterFiles(
     sortFiles(appStore.files, listView.sortType),
     listView.filterValue
   ),
   path: appStore.path,
   sortType: listView.sortType,
-  transformFilesArr,
 });
 
 const mapDispatchToProps = dispatch => ({
