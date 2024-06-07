@@ -1,4 +1,6 @@
 review TODOs in code
+replace 'document.' with state-ref logic
+webpack^ investigate hot reload + open link on building
 add user name when he is loggen in
 get rid of react-beatiful hook: replace with React hooks
 refactor React components

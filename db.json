@@ -1,1 +1,1 @@
-[{"name":"user","password":"user","isAdmin":true},{"name":"qwe","password":"qwe","isAdmin":false}]
+[{"name":"user","password":"user","isAdmin":true,"sessionId":["42534190-9d45-44d3-b01f-089a44fd3edf"]},{"name":"qwe","password":"qwe","isAdmin":false},{"name":"ASDASDA","password":"USERSDFS","isAdmin":false}]

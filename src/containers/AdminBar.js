@@ -3,92 +3,44 @@ import { connect } from 'react-redux';
 import { useDidMount } from 'beautiful-react-hooks';
 import { setUsersApp } from '../actions';
 import PropTypes from 'prop-types';
+import {
+  findNewUsers,
+  addFileClick,
+  createFileAjax,
+  receiveUsers,
+  updateRolesSubmit,
+  updateRolesAjax,
+  findUpdatedUsers,
+} from './utils/adminHelpers';
 
 function AdminBar({ path, users, isAdmin, setUsers }) {
   useDidMount(async () => {
     if (isAdmin) {
-      await receiveUsers();
+      await receiveUsers(setUsers);
     }
   });
 
-  function addFileClick(event) {
-    event.preventDefault();
-    const nameInput = document.getElementById('fileName');
-    const textInput = document.getElementById('fileText');
-    const isDirCheckbox = document.getElementById('isDirectoryCheckbox');
-    const data = {
-      isDirectory: isDirCheckbox.checked,
-      text: textInput.value,
-      path: `${path}/${nameInput.value}`,
-    };
-    createFileAjax(data);
-  }
-
-  async function createFileAjax(data) {
-    const response = await fetch('/createFile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (response.status === 200) {
-      alert('file successfully added');
-      const fileName = document.getElementById('fileName');
-      fileName.value = '';
-      const fileText = document.getElementById('fileText');
-      fileText.value = '';
-      const directoryCheckbox = document.getElementById('isDirectoryCheckbox');
-      directoryCheckbox.checked = false;
-    } else {
-      let error = await response.json();
-      alert(error);
-    }
-  }
-
-  async function receiveUsers() {
-    const response = await fetch('/receiveUsers');
-    const result = await response.json();
-    if (response.status === 200) {
-      setUsers(result);
-    } else {
-      alert('some error occurs');
-    }
-  }
-
-  function updateRolesSubmit(event) {
-    event.preventDefault();
-    const updatedUsers = findUpdatedUsers(users, findNewUsers());
-    if (updatedUsers.length > 0) {
-      const data = {
-        users: JSON.stringify(updatedUsers),
-      };
-      updateRolesAjax(data);
-    }
-  }
-
-  async function updateRolesAjax(data) {
-    const response = await fetch('/updateRoles', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (response.status === 200) {
-      alert('roles updates!');
-    } else {
-      let error = await response.json();
-      alert(error);
-    }
-  }
+  const fileNameRef = React.createRef();
+  const fileTextRef = React.createRef();
+  const isDirCheckboxRef = React.createRef();
 
   return (
     <div className="mt-4">
       <p>admin bar</p>
-      <form onSubmit={addFileClick} action="/createFile" method="post">
+      <form
+        onSubmit={e =>
+          addFileClick(
+            e,
+            path,
+            fileNameRef,
+            fileTextRef,
+            isDirCheckboxRef,
+            createFileAjax
+          )
+        }
+        action="/createFile"
+        method="post"
+      >
         <p>create new file / directory</p>
         <div className="form-group">
           <label htmlFor="fileName">file name</label>
@@ -99,6 +51,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
             placeholder="fileName"
             minLength="1"
             className="form-control"
+            ref={fileNameRef}
           />
         </div>
         <div className="form-group">
@@ -108,6 +61,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
             className="form-control"
             id="fileText"
             rows="3"
+            ref={fileTextRef}
           />
         </div>
         <div className="form-check">
@@ -115,6 +69,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
             type="checkbox"
             className="form-check-input"
             id="isDirectoryCheckbox"
+            ref={isDirCheckboxRef}
           />
           <label className="form-check-label" htmlFor="isDirectoryCheckbox">
             isDirectory
@@ -125,7 +80,19 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
         </button>
       </form>
       {users.length > 0 && (
-        <form onSubmit={updateRolesSubmit} action="/updateRoles" method="post">
+        <form
+          onSubmit={e =>
+            updateRolesSubmit(
+              e,
+              findUpdatedUsers,
+              users,
+              findNewUsers,
+              updateRolesAjax
+            )
+          }
+          action="/updateRoles"
+          method="post"
+        >
           <p>update roles</p>
           {users.map((el, i) => {
             const id = `user-${i}`;
@@ -172,21 +139,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminBar);
-
-function findUpdatedUsers(users, newUsers) {
-  return newUsers.filter(el => {
-    const oldUser = users.find(elem => elem.name === el.name);
-    return !(oldUser.isAdmin === el.isAdmin);
-  });
-}
-
-function findNewUsers() {
-  const inputs = document.querySelectorAll('[id^="user"]');
-  const inputsArr = Array.from(inputs);
-  return inputsArr.map(el => {
-    return {
-      name: el.dataset.name,
-      isAdmin: el.checked,
-    };
-  });
-}
