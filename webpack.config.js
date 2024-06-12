@@ -49,7 +49,7 @@ module.exports = {
       },
     }),
     new HtmlWebpackPlugin({
-      template: 'public/login.html',
+      template: 'public/index.html',
       favicon: 'public/favicon.ico',
       filename: 'login.html',
       title: 'login page',
