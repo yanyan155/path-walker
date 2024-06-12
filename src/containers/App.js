@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 const redux = require('redux');
 import rootReducer from '../reducers';
 import { createSocket, transformFilesArr } from './utils/socketHelpers';
+import './style.css';
 
 const store = redux.createStore(rootReducer);
 

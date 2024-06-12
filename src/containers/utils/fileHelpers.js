@@ -72,7 +72,7 @@ export async function receiveFiles(
 ) {
   try {
     const json = await fetch(
-      `${config.searchUrl}search?q=${encodeURIComponent(path)}&type=${type}`
+      `${config.appUrl}search?q=${encodeURIComponent(path)}&type=${type}`
     );
     const data = await json.json();
     if (data.files) {

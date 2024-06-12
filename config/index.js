@@ -1,7 +1,7 @@
 const config = {
   port: 8080,
-  searchUrl: 'http://localhost:8080/',
-  startUrl: 'C:/Users/Yan/Desktop',
+  appUrl: 'http://localhost:8080/',
+  startPath: 'C:/Users/Yan/Desktop',
   db: 'db.json',
 };
 

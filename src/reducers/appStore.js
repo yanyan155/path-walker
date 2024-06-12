@@ -2,7 +2,7 @@ import config from '../../config';
 
 const appStore = (
   initStatus = {
-    path: config.startUrl,
+    path: config.startPath,
     files: [],
     users: [],
     isErrorApp: false,

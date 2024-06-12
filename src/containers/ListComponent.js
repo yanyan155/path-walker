@@ -38,7 +38,7 @@ function ListComponentEl({
 }) {
   useEffect(() => {
     getDetails(
-      `${config.searchUrl}stats?q=${encodeURIComponent(absolutePath)}`,
+      `${config.appUrl}stats?q=${encodeURIComponent(absolutePath)}`,
       fileId
     );
   }, [getDetails, absolutePath]);
