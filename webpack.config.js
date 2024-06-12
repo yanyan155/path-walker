@@ -42,13 +42,21 @@ module.exports = {
       template: 'public/index.html',
       favicon: 'public/favicon.ico',
       filename: 'index.html',
+      title: 'app page',
       inject: false,
+      templateParameters: {
+        scriptSrc: 'app.bundle.js',
+      },
     }),
     new HtmlWebpackPlugin({
       template: 'public/login.html',
       favicon: 'public/favicon.ico',
       filename: 'login.html',
+      title: 'login page',
       inject: false,
+      templateParameters: {
+        scriptSrc: 'login.bundle.js',
+      },
     }),
   ],
 };
