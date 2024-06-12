@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ListComponent from './ListComponent';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
 import LazyLoad from 'react-lazyload';
-import { useDidMount } from 'beautiful-react-hooks';
 import PropTypes from 'prop-types';
 
 import {
@@ -36,7 +35,7 @@ function Files({
   setFilterFiles,
   setSortFiles,
 }) {
-  useDidMount(() => {
+  useEffect(() => {
     if (path !== '/') {
       receiveFiles(
         path,
@@ -49,7 +48,7 @@ function Files({
         setIsError
       );
     }
-  });
+  }, [path, uuidv4, setPath, setIsAdmin, setFiles, setFilesText, setIsError]);
 
   return (
     <div>

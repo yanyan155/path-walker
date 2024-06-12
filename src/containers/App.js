@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { render } from 'react-dom';
 import Files from './Files.js';
 import AdminBar from './AdminBar.js';
@@ -7,7 +7,6 @@ import { setUsersApp, updateFilesApp } from '../actions';
 import PropTypes from 'prop-types';
 const redux = require('redux');
 import rootReducer from '../reducers';
-import { useDidMount } from 'beautiful-react-hooks';
 import { createSocket, transformFilesArr } from './utils/socketHelpers';
 
 const store = redux.createStore(rootReducer);
@@ -18,9 +17,9 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
   // todo make replace divs with table
   // todo will key={uuidv4()} each time updates on rerendiring page --- think about caching strategy??
 
-  useDidMount(() => {
+  useEffect(() => {
     createSocket(setUsers, updateFiles, transformFilesArr, path);
-  });
+  }, [setUsers, updateFiles, transformFilesArr, path]);
 
   const logOutForm = React.createRef();
 

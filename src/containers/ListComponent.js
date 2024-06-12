@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import config from '../../config';
 import {
   updateDetailsSuccessItem,
@@ -10,7 +10,6 @@ import {
   setIsAdminApp,
 } from '../actions';
 import { connect } from 'react-redux';
-import { useDidMount } from 'beautiful-react-hooks';
 import PropTypes from 'prop-types';
 import {
   findPathUI,
@@ -37,12 +36,12 @@ function ListComponentEl({
   setFilesText,
   setIsError,
 }) {
-  useDidMount(() => {
+  useEffect(() => {
     getDetails(
       `${config.searchUrl}stats?q=${encodeURIComponent(absolutePath)}`,
       fileId
     );
-  });
+  }, [getDetails, absolutePath]);
 
   async function getDetails(path, fileId) {
     try {

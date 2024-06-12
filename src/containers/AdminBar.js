@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useDidMount } from 'beautiful-react-hooks';
 import { setUsersApp } from '../actions';
 import PropTypes from 'prop-types';
 import {
@@ -14,11 +13,11 @@ import {
 } from './utils/adminHelpers';
 
 function AdminBar({ path, users, isAdmin, setUsers }) {
-  useDidMount(async () => {
+  useEffect(async () => {
     if (isAdmin) {
       await receiveUsers(setUsers);
     }
-  });
+  }, [isAdmin, setUsers, receiveUsers]);
 
   const fileNameRef = React.createRef();
   const fileTextRef = React.createRef();
