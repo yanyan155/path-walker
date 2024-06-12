@@ -1,11 +1,13 @@
 review TODOs in code
 replace 'document.' with state-ref logic
-webpack^ investigate hot reload + open link on building
 add user name when he is loggen in
 refactor React components
-refactor html - css
-add to webpack comand to autoopen local server during 'npm run start'
-https://webpack.js.org/configuration/dev-server/#devserver-open
+
+todo add bootstrap Table
+todo make form pretty --> google how to use lazyloading in <table> tag
+refactor html - css: https://getbootstrap.com/docs/4.6/getting-started/introduction/
+
+webpack: create different bindles for dev / prod development
 
 investigate lint strategy
 investigate package.json dependencies for updating, replacing or removing
@@ -13,3 +15,14 @@ bump react - react dom - redux version (investigate peer-dependencies)
 bump express version (investigate peer-dependencies)
 
 replace proptypes with typescript
+
+// todo add error handling for broke ajax
+// todo: handle error: create already exist file
+// todo: create socketService / socketRepository and sessionService / sessionepository similar to logic: server -> servises -> repositories
+
+// update roles не раьботает --> broad cast не сработал
+// A: то же самое, юзер может даже переходить постраницам, когад сервер перезагрузился
+// todo: add this project to heroku
+// todo: add hook to autoupdate heroku when push changes to git
+// todo: add tests
+// todo: add confirmation of password in mail + ability to change password via mail

@@ -7,6 +7,11 @@ const { v4: uuidv4 } = require('uuid');
 const auth = require('./middleware/auth');
 const { logger } = require('./libs/logger');
 const { wss, WebSocket, broadcast } = require('./socket.js');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config.js');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const compiler = webpack(webpackConfig);
 
 const app = express();
 app.use(express.json());
@@ -178,7 +183,14 @@ app.get(/^\/receiveUsers/, auth.adminAction, async (req, res, next) => {
   }
 });
 
-app.use(express.static(`${__dirname}/dist`));
+// https://3body-net.medium.com/building-a-dev-server-with-express-and-webpack-761704f0c66a
+app.use(
+  webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath,
+  })
+);
+app.use(webpackHotMiddleware(compiler));
+// app.use(express.static(`${__dirname}/dist`));
 
 const server = app.listen(config.port);
 server.once('connection', async () => {
@@ -208,19 +220,3 @@ function findFileName(path) {
     name: name,
   };
 }
-
-// todo add error handling for broke ajax
-// todo add logout
-// todo add bootstrap Table
-// todo make form pretty --> google how to use lazyloading in <table> tag
-// todo: add descripitin to login and main pages
-// todo: handle error: create already exist file
-// todo: create socketService / socketRepository and sessionService / sessionepository similar to logic: server -> servises -> repositories
-// todo: login user / user -> go '/..' and reload page, page the path is different
-
-// update roles не раьботает --> broad cast не сработал
-// A: то же самое, юзер может даже переходить постраницам, когад сервер перезагрузился
-// todo: add this project to heroku
-// todo: add hook to autoupdate heroku when push changes to git
-// todo: add tests
-// todo: add confirmation of password in mail + ability to change password via mail
