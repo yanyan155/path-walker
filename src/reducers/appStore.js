@@ -57,7 +57,7 @@ const appStore = (
     case 'UPDATE_DETAILS_ERROR_ITEM': {
       let newStore = Object.assign({}, initStatus);
       let elem = newStore.files.find(el => el.fileId === action.fileId);
-      elem.isError = true;
+      elem.isError = true; // FIX issue here: Cannot set properties of undefined (setting 'isError')
       elem.isLoaded = action.isLoaded;
       return newStore;
     }

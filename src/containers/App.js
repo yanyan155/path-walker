@@ -30,6 +30,7 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
 
   return (
     <div>
+      <h2>welcome --USERNAME-- </h2>
       <div className="d-flex">
         <span>Your path is:</span>&emsp;
         <strong>{path}</strong>

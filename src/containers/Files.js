@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import ListComponent from './ListComponent';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
-import LazyLoad from 'react-lazyload';
+// import LazyLoad from 'react-lazyload';
+// remove react-lazyload npm package
 import PropTypes from 'prop-types';
 
 import {
@@ -34,6 +35,7 @@ function Files({
   sortType,
   setFilterFiles,
   setSortFiles,
+  isAdmin,
 }) {
   useEffect(() => {
     if (path !== '/') {
@@ -63,69 +65,79 @@ function Files({
           className="form-control"
         />
       </div>
-      <div className="row">
-        <div
-          onClick={event => setSortEvent(event, setSortFiles, sortType)}
-          data-sorttype="NAME"
-          className="col-2"
-        >
-          Name
-        </div>
-        <div className="row col-10">
-          <div
-            onClick={event => setSortEvent(event, setSortFiles, sortType)}
-            data-sorttype="SIZE"
-            className="col-2"
-          >
-            Size, bites
-          </div>
-          <div
-            onClick={event => setSortEvent(event, setSortFiles, sortType)}
-            data-sorttype="DIRECTORY"
-            className="col-2"
-          >
-            Type
-          </div>
-          <div
-            onClick={event => setSortEvent(event, setSortFiles, sortType)}
-            data-sorttype="DATE"
-            className="col-8"
-          >
-            Last modified date
-          </div>
-        </div>
-      </div>
-      {path !== '/' && (
-        <LazyLoad key={uuidv4()}>
-          <div
-            onClick={event =>
-              itemWrapperClick(
-                event,
-                findPathUI,
-                receiveFiles,
-                setPath,
-                setIsAdmin,
-                setFiles,
-                setFilesText,
-                setIsError,
-                path
-              )
-            }
-            className="item-wrapper row"
-            key={uuidv4()}
-            data-path=".."
-          >
-            <span className="col-2 item-name">/.. </span>
-          </div>
-        </LazyLoad>
-      )}
-      {files.map(el => {
-        return (
-          <LazyLoad key={el.lazyLoadId}>
-            <ListComponent item={el} />
-          </LazyLoad>
-        );
-      })}
+      <table className="table table-striped table-sm">
+        <thead>
+          <tr>
+            <th
+              onClick={event => setSortEvent(event, setSortFiles, sortType)}
+              data-sorttype="NAME"
+              className="col-3"
+              scope="col"
+            >
+              Name or path
+            </th>
+            <th
+              onClick={event => setSortEvent(event, setSortFiles, sortType)}
+              data-sorttype="SIZE"
+              scope="col"
+              className="col-2"
+            >
+              Size, bites
+            </th>
+            <th
+              onClick={event => setSortEvent(event, setSortFiles, sortType)}
+              data-sorttype="DIRECTORY"
+              scope="col"
+              className="col-2"
+            >
+              Type
+            </th>
+            <th
+              onClick={event => setSortEvent(event, setSortFiles, sortType)}
+              data-sorttype="DATE"
+              scope="col"
+              className="col-4"
+            >
+              Last modified date
+            </th>
+            {isAdmin && (
+              <th className="col-1" scope="col">
+                Delete
+              </th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {path !== '/' && (
+            <tr>
+              <th
+                scope="row"
+                onClick={event =>
+                  itemWrapperClick(
+                    event,
+                    findPathUI,
+                    receiveFiles,
+                    setPath,
+                    setIsAdmin,
+                    setFiles,
+                    setFilesText,
+                    setIsError,
+                    path
+                  )
+                }
+                className="item-wrapper"
+                key={uuidv4()}
+                data-path=".."
+              >
+                <span className="item-name">/.. (go to the parent folder)</span>
+              </th>
+            </tr>
+          )}
+          {files.map(el => {
+            return <ListComponent item={el} />;
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
@@ -138,6 +150,7 @@ Files.propTypes = {
   setFilesText: PropTypes.func.isRequired,
   setIsError: PropTypes.func.isRequired,
   sortType: PropTypes.string.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({ appStore, listView }) => ({
@@ -147,6 +160,7 @@ const mapStateToProps = ({ appStore, listView }) => ({
   ),
   path: appStore.path,
   sortType: listView.sortType,
+  isAdmin: appStore.isAdmin,
 });
 
 const mapDispatchToProps = dispatch => ({

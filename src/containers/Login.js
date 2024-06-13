@@ -28,9 +28,11 @@ const Login = ({ setError, status, responseText }) => {
         action="/login"
         method="post"
       >
-        <p className="text-danger">
-          Error:{status} {responseText}
-        </p>
+        {status ? (
+          <p className="text-danger">
+            Error:{status} {responseText}
+          </p>
+        ) : null}
         <div className="form-group">
           <label htmlFor="name">user name</label>
           <input

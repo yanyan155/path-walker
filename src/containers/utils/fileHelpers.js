@@ -30,6 +30,7 @@ export function itemWrapperClick(
   setIsError,
   pathX
 ) {
+  // TODO: set ref here instead of DOM calculations
   let elem = event.target;
   if (!elem.classlist?.contains('item-wrapper')) {
     elem = elem.closest('.item-wrapper');

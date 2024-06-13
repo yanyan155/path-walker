@@ -25,7 +25,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
 
   return (
     <div className="mt-4">
-      <p>admin bar</p>
+      <h2>Admin bar</h2>
       <form
         onSubmit={e =>
           addFileClick(
@@ -37,10 +37,11 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
             createFileAjax
           )
         }
+        className="border  mt-3 mb-3 p-3"
         action="/createFile"
         method="post"
       >
-        <p>create new file / directory</p>
+        <h3>create new file / directory</h3>
         <div className="form-group">
           <label htmlFor="fileName">file name</label>
           <input
@@ -89,10 +90,12 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
               updateRolesAjax
             )
           }
+          className="border mt-3 mb-3 p-3"
           action="/updateRoles"
           method="post"
         >
-          <p>update roles</p>
+          <h3>Update roles</h3>
+          <p>check checkbox to set Admin role to the user</p>
           {users.map((el, i) => {
             const id = `user-${i}`;
             return (
