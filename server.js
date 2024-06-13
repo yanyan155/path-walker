@@ -52,8 +52,8 @@ app.post('/login', async (req, res, next) => {
     res.end();
   } catch (error) {
     logger.error(error);
-    res.status(403);
-    res.end('wrong login / password');
+    res.set('Content-Type', 'text/plain');
+    res.status(403).send('wrong login / password').end();
   }
 });
 
@@ -69,12 +69,11 @@ app.post('/logout', async (req, res, next) => {
     await broadcast(wss, WebSocket)('logout', '', data);
 
     res.status(200);
-    res.redirect('/');
   } catch (error) {
     logger.error(error);
     res.status(403);
-    res.redirect('/');
   }
+  res.redirect('/');
 });
 
 app.post('/createFile', auth.adminAction, async (req, res, next) => {

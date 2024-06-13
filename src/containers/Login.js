@@ -5,76 +5,61 @@ import loginStore from '../reducers/loginStore';
 import { setLoginError } from '../actions';
 const redux = require('redux');
 import PropTypes from 'prop-types';
+import loginSubmit from './utils/loginHelpers';
 
 const store = redux.createStore(loginStore);
-
-async function loginSubmit(event, setError, name, password) {
-  event.preventDefault();
-  const data = {
-    name,
-    password,
-  };
-
-  const response = await fetch('/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json;charset=utf-8',
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (response.status === 200) {
-    window.location.href = '/';
-  } else {
-    setError(response.status, response.responseText);
-  }
-}
 
 const Login = ({ setError, status, responseText }) => {
   const nameInputRef = React.createRef();
   const passwordInputRef = React.createRef();
   return (
-    <form
-      onSubmit={event => {
-        loginSubmit(
-          event,
-          setError,
-          nameInputRef.current.value,
-          passwordInputRef.current.value
-        );
-      }}
-      action="/login"
-      method="post"
-    >
-      <p className="text-danger">
-        {status} {responseText}
-      </p>
-      <div className="form-group">
-        <label htmlFor="name">name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          placeholder="name"
-          minLength="2"
-          ref={nameInputRef}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="password"
-          minLength="2"
-          ref={passwordInputRef}
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
-    </form>
+    <>
+      <h1>Login form</h1>
+      <p>Please log in to continue</p>
+      <form
+        onSubmit={event => {
+          loginSubmit(
+            event,
+            setError,
+            nameInputRef.current.value,
+            passwordInputRef.current.value
+          );
+        }}
+        action="/login"
+        method="post"
+      >
+        <p className="text-danger">
+          Error:{status} {responseText}
+        </p>
+        <div className="form-group">
+          <label htmlFor="name">user name</label>
+          <input
+            className="form-control"
+            id="name"
+            name="name"
+            type="text"
+            placeholder="user name"
+            minLength="2"
+            ref={nameInputRef}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">password</label>
+          <input
+            className="form-control"
+            id="password"
+            name="password"
+            type="password"
+            placeholder="password"
+            minLength="2"
+            ref={passwordInputRef}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+    </>
   );
 };
 

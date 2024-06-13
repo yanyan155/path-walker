@@ -16,6 +16,7 @@ import {
   itemWrapperClick,
   receiveFiles,
 } from './utils/fileHelpers';
+import { deleteFileAjax, getDetails } from './utils/listComponentHelpers';
 
 function ListComponentEl({
   isAdmin,
@@ -39,43 +40,15 @@ function ListComponentEl({
   useEffect(() => {
     getDetails(
       `${config.appUrl}stats?q=${encodeURIComponent(absolutePath)}`,
-      fileId
+      fileId,
+      updateDetailsSuccess,
+      updateDetailsError
     );
-  }, [getDetails, absolutePath]);
+  }, [getDetails, absolutePath, updateDetailsSuccess, updateDetailsError]);
 
-  async function getDetails(path, fileId) {
-    try {
-      const json = await fetch(path);
-      const data = await json.json();
-      updateDetailsSuccess(fileId, data.size, data.type, data.modifiedDate);
-    } catch (err) {
-      updateDetailsError(fileId);
-    }
-  }
-
-  function removeClick(event) {
+  function removeClick(event, deleteFileAjax, type) {
     event.stopPropagation();
     deleteFileAjax(absolutePath, type === 'directory');
-  }
-
-  async function deleteFileAjax(path, isDirectory) {
-    const data = {
-      path,
-      isDirectory,
-    };
-    const response = await fetch('/deleteFile', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (response.status === 200) {
-      alert('file successfully deleted');
-    } else {
-      alert('some error occurs');
-    }
   }
 
   const dateFormatted = date ? new Date(date).toString().slice(0, 24) : '';
@@ -116,7 +89,7 @@ function ListComponentEl({
                 className="bi bi-trash"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg"
-                onClick={removeClick}
+                onClick={e => removeClick(e, deleteFileAjax, type)}
               >
                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                 <path
