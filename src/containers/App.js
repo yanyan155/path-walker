@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 const redux = require('redux');
 import rootReducer from '../reducers';
 import { createSocket, transformFilesArr } from './utils/socketHelpers';
+import { getName } from './utils/sessionStorageHelper.js';
 import './style.css';
 
 const store = redux.createStore(rootReducer);
@@ -30,7 +31,7 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
 
   return (
     <div>
-      <h2>welcome --USERNAME-- </h2>
+      <h2 className="mt-3">welcome, {getName()}! </h2>
       <div className="d-flex">
         <span>Your path is:</span>&emsp;
         <strong>{path}</strong>

@@ -1,5 +1,10 @@
+import { setName } from './sessionStorageHelper';
+
 export default async function loginSubmit(event, setError, name, password) {
   event.preventDefault();
+
+  setName(name);
+
   const data = {
     name,
     password,
