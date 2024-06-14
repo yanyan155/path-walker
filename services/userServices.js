@@ -57,19 +57,15 @@ class UserServices {
     }
   }
 
-  async getData(path, type, isAdmin) {
+  async getData(path, isAdmin) {
     try {
-      if (type === '' && isAdmin) {
+      if (isAdmin) {
         const stats = await userRepository.sendFileDetails(path);
         if (stats.isDirectory()) {
           return await getDataDirectory(path, isAdmin);
         } else {
           return await getDataFiles(path);
         }
-      } else if (type === 'file' && isAdmin) {
-        return await getDataFiles(path);
-      } else {
-        return await getDataDirectory(path, isAdmin);
       }
     } catch (error) {
       logger.error(error);

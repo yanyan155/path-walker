@@ -104,7 +104,6 @@ app.get(/^\/search/, async (req, res, next) => {
     if (decodeURIComponent(req.query.q) !== '/') {
       files = await userServices.getData(
         decodeURIComponent(req.query.q),
-        req.query.type,
         check?.isAdmin
       );
     } else {

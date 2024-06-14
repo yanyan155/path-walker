@@ -36,11 +36,8 @@ export function itemWrapperClick(
     elem = elem.closest('.item-wrapper');
   }
   const path = findPathUI(elem.dataset.path, pathX);
-  const typeSpan = elem.querySelector('.file-type');
-  const type = typeSpan?.innerHTML ?? '';
   receiveFiles(
     path,
-    type,
     uuidv4,
     setPath,
     setIsAdmin,
@@ -53,7 +50,6 @@ export function itemWrapperClick(
 
 export async function receiveFiles(
   path,
-  type,
   uuidv4,
   setPath,
   setIsAdmin,
@@ -63,7 +59,7 @@ export async function receiveFiles(
 ) {
   try {
     const json = await fetch(
-      `${config.appUrl}search?q=${encodeURIComponent(path)}&type=${type}`
+      `${config.appUrl}search?q=${encodeURIComponent(path)}`
     );
     const data = await json.json();
     if (data.files) {

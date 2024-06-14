@@ -41,7 +41,6 @@ function Files({
     if (path !== '/') {
       receiveFiles(
         path,
-        '',
         uuidv4,
         setPath,
         setIsAdmin,
