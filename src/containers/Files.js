@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 import {
   findPathUI,
   itemWrapperClick,
-  setSortEvent,
-  setFilterEvent,
   receiveFiles,
+  sortFiles,
+  filterFiles,
 } from './utils/fileHelpers';
 
 import {
@@ -57,7 +57,7 @@ function Files({
       <div className="form-group">
         <label htmlFor="search">search</label>
         <input
-          onChange={event => setFilterEvent(event, setFilterFiles)}
+          onChange={event => setFilterFiles(event.target.value)}
           id="search"
           name="search"
           type="text"
@@ -69,32 +69,28 @@ function Files({
         <thead>
           <tr>
             <th
-              onClick={event => setSortEvent(event, setSortFiles, sortType)}
-              data-sorttype="NAME"
+              onClick={() => setSortFiles(sortType, 'NAME')}
               className="col-3"
               scope="col"
             >
               Name or path
             </th>
             <th
-              onClick={event => setSortEvent(event, setSortFiles, sortType)}
-              data-sorttype="SIZE"
+              onClick={() => setSortFiles(sortType, 'SIZE')}
               scope="col"
               className="col-2"
             >
               Size, bites
             </th>
             <th
-              onClick={event => setSortEvent(event, setSortFiles, sortType)}
-              data-sorttype="DIRECTORY"
+              onClick={() => setSortFiles(sortType, 'DIRECTORY')}
               scope="col"
               className="col-2"
             >
               Type
             </th>
             <th
-              onClick={event => setSortEvent(event, setSortFiles, sortType)}
-              data-sorttype="DATE"
+              onClick={() => setSortFiles(sortType, 'DATE')}
               scope="col"
               className="col-4"
             >
@@ -174,30 +170,3 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Files);
-
-function sortFiles(files, sortType) {
-  switch (sortType) {
-    case 'NAME':
-      return files.sort((a, b) => b.name.localeCompare(a.name));
-    case 'NAME_REVERT':
-      return files.sort((a, b) => a.name.localeCompare(b.name));
-    case 'DIRECTORY':
-      return files.sort((a, b) => a.isDirectory - b.isDirectory);
-    case 'DIRECTORY_REVERT':
-      return files.sort((a, b) => b.isDirectory - a.isDirectory);
-    case 'SIZE':
-      return files.sort((a, b) => a.size - b.size);
-    case 'SIZE_REVERT':
-      return files.sort((a, b) => b.size - a.size);
-    case 'DATE':
-      return files.sort((a, b) => a.date - b.date);
-    case 'DATE_REVERT':
-      return files.sort((a, b) => b.date - a.date);
-    default:
-      return files;
-  }
-}
-
-function filterFiles(files, filter) {
-  return files.filter(el => el.name.includes(filter));
-}

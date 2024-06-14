@@ -3,11 +3,11 @@ import { render } from 'react-dom';
 import { connect, Provider } from 'react-redux';
 import loginStore from '../reducers/loginStore';
 import { setLoginError } from '../actions';
-const redux = require('redux');
+import { createStore } from 'redux';
 import PropTypes from 'prop-types';
 import loginSubmit from './utils/loginHelpers';
 
-const store = redux.createStore(loginStore);
+const store = createStore(loginStore);
 
 const Login = ({ setError, status, responseText }) => {
   const nameInputRef = React.createRef();

@@ -1,10 +1,9 @@
 rethink rewrite lay lazyloading!!
 FIND IN CODE and fix TODO: set ref here instead of DOM calculations
+lint create rule for imports: first load npm packages, then from src code modules
 
 FIND IN CODE and fix: FIX issue here: Cannot set properties of undefined (setting 'isError')
 how to reproduce: login as admin and go to the parent folder
-
-TODO: investigate why DIRECTORY sorting doesn't work
 
 review TODOs in code
 replace 'document.' with state-ref logic

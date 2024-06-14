@@ -5,13 +5,13 @@ import AdminBar from './AdminBar.js';
 import { connect, Provider } from 'react-redux';
 import { setUsersApp, updateFilesApp } from '../actions';
 import PropTypes from 'prop-types';
-const redux = require('redux');
+import { createStore } from 'redux';
 import rootReducer from '../reducers';
 import { createSocket, transformFilesArr } from './utils/socketHelpers';
-import { getName } from './utils/sessionStorageHelper.js';
+import { getName } from './utils/localStorageHelper';
 import './style.css';
 
-const store = redux.createStore(rootReducer);
+const store = createStore(rootReducer);
 
 function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
   const errorMessage = 'Something went wrong! Please try again later.';

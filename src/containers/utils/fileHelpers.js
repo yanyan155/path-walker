@@ -51,16 +51,6 @@ export function itemWrapperClick(
   );
 }
 
-export function setSortEvent(event, setSortFiles, sortType) {
-  const elem = event.target;
-  setSortFiles(sortType, elem.dataset.sorttype);
-}
-
-export function setFilterEvent(event, setFilterFiles) {
-  const elem = event.target;
-  setFilterFiles(elem.value);
-}
-
 export async function receiveFiles(
   path,
   type,
@@ -87,4 +77,31 @@ export async function receiveFiles(
   } catch (err) {
     setIsError(true);
   }
+}
+
+export function sortFiles(files, sortType) {
+  switch (sortType) {
+    case 'NAME':
+      return files.sort((a, b) => b.name.localeCompare(a.name));
+    case 'NAME_REVERT':
+      return files.sort((a, b) => a.name.localeCompare(b.name));
+    case 'DIRECTORY':
+      return files.sort((a, b) => b.type.localeCompare(a.type));
+    case 'DIRECTORY_REVERT':
+      return files.sort((a, b) => a.type.localeCompare(b.type));
+    case 'SIZE':
+      return files.sort((a, b) => a.size - b.size);
+    case 'SIZE_REVERT':
+      return files.sort((a, b) => b.size - a.size);
+    case 'DATE':
+      return files.sort((a, b) => a.date - b.date);
+    case 'DATE_REVERT':
+      return files.sort((a, b) => b.date - a.date);
+    default:
+      return files;
+  }
+}
+
+export function filterFiles(files, filter) {
+  return files.filter(el => el.name.includes(filter));
 }

@@ -1,4 +1,4 @@
-import { setName } from './sessionStorageHelper';
+import { setName } from './localStorageHelper';
 
 export default async function loginSubmit(event, setError, name, password) {
   event.preventDefault();
