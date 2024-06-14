@@ -15,7 +15,6 @@ const appStore = (
     case 'SET_PATH_APP': {
       return Object.assign({}, initStatus, {
         path: action.path,
-        files: action.files,
       });
     }
     case 'SET_FILES_APP': {
@@ -47,7 +46,9 @@ const appStore = (
     }
     case 'UPDATE_DETAILS_SUCCESS_ITEM': {
       let newStore = Object.assign({}, initStatus);
-      let item = newStore.files.find(el => el.fileId === action.fileId);
+      let item = newStore.files.find(
+        el => el.absolutePath === action.absolutePath
+      );
       item.size = action.size;
       item.type = action.fileType;
       item.date = action.date;
@@ -56,8 +57,10 @@ const appStore = (
     }
     case 'UPDATE_DETAILS_ERROR_ITEM': {
       let newStore = Object.assign({}, initStatus);
-      let elem = newStore.files.find(el => el.fileId === action.fileId);
-      elem.isError = true; // FIX issue here: Cannot set properties of undefined (setting 'isError')
+      let elem = newStore.files.find(
+        el => el.absolutePath === action.absolutePath
+      );
+      elem.isError = true;
       elem.isLoaded = action.isLoaded;
       return newStore;
     }

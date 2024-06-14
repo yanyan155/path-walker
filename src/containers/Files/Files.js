@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import ListComponent from '../ListComponent/ListComponent';
-import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
 // import LazyLoad from 'react-lazyload';
 // remove react-lazyload npm package
@@ -41,7 +40,6 @@ function Files({
     if (path !== '/') {
       receiveFiles(
         path,
-        uuidv4,
         setPath,
         setIsAdmin,
         setFiles,
@@ -49,7 +47,7 @@ function Files({
         setIsError
       );
     }
-  }, [path, uuidv4, setPath, setIsAdmin, setFiles, setFilesText, setIsError]);
+  }, [path, setPath, setIsAdmin, setFiles, setFilesText, setIsError]);
 
   return (
     <div>

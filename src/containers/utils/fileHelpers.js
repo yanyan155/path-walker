@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { transformFilesArr } from './socketHelpers';
 import config from '../../../config';
 
@@ -38,7 +37,6 @@ export function itemWrapperClick(
   const path = findPathUI(elem.dataset.path, pathX);
   receiveFiles(
     path,
-    uuidv4,
     setPath,
     setIsAdmin,
     setFiles,
@@ -50,7 +48,6 @@ export function itemWrapperClick(
 
 export async function receiveFiles(
   path,
-  uuidv4,
   setPath,
   setIsAdmin,
   setFiles,
@@ -62,12 +59,11 @@ export async function receiveFiles(
       `${config.appUrl}search?q=${encodeURIComponent(path)}`
     );
     const data = await json.json();
+    setPath(data.path);
+    setIsAdmin(data.isAdmin);
     if (data.files) {
-      setPath(data.path);
-      setIsAdmin(data.isAdmin);
-      setFiles(transformFilesArr(data.files, data.path, uuidv4));
+      setFiles(transformFilesArr(data.files, data.path));
     } else if (data.fileText) {
-      setPath(data.path);
       setFilesText(data.fileText);
     }
   } catch (err) {

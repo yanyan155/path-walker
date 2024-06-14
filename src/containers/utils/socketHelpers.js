@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 export function createSocket(setUsers, updateFiles, transformFilesArr, path) {
   const ws = new WebSocket('ws://localhost:8079');
 
@@ -18,7 +16,7 @@ export function createSocket(setUsers, updateFiles, transformFilesArr, path) {
       data.path === path
     ) {
       if (data.updateType === 'added') {
-        const newFileArr = transformFilesArr([data.name], data.path, uuidv4);
+        const newFileArr = transformFilesArr([data.name], data.path);
         data.file = newFileArr[0];
       }
       updateFiles(data);
@@ -37,15 +35,13 @@ export function createSocket(setUsers, updateFiles, transformFilesArr, path) {
   }
 }
 
-export function transformFilesArr(files, newPath, uuidv4) {
+export function transformFilesArr(files, newPath) {
   return files.map(el => {
     const absolutePath = newPath === '/' ? `${el}` : `${newPath}/${el}`;
     const isLoaded = newPath === '/' ? true : false;
     const type = newPath === '/' ? 'disk' : 'directory';
 
     return {
-      lazyLoadId: uuidv4(),
-      fileId: uuidv4(),
       name: el,
       absolutePath,
       size: 0,

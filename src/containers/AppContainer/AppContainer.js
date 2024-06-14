@@ -19,9 +19,6 @@ function AppContainer({
 }) {
   const errorMessage = 'Something went wrong! Please try again later.';
 
-  // todo make replace divs with table
-  // todo will key={uuidv4()} each time updates on rerendiring page --- think about caching strategy??
-
   useEffect(() => {
     createSocket(setUsers, updateFiles, transformFilesArr, path);
   }, [setUsers, updateFiles, transformFilesArr, path]);

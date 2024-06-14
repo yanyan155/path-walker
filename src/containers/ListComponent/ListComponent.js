@@ -29,7 +29,6 @@ function ListComponentEl({
   updateDetailsSuccess,
   updateDetailsError,
   isLoaded,
-  fileId,
   path,
   setPath,
   setIsAdmin,
@@ -40,7 +39,7 @@ function ListComponentEl({
   useEffect(() => {
     getDetails(
       `${config.appUrl}stats?q=${encodeURIComponent(absolutePath)}`,
-      fileId,
+      absolutePath,
       updateDetailsSuccess,
       updateDetailsError
     );
@@ -113,7 +112,6 @@ ListComponentEl.propTypes = {
   updateDetailsSuccess: PropTypes.func.isRequired,
   updateDetailsError: PropTypes.func.isRequired,
   isLoaded: PropTypes.bool.isRequired,
-  fileId: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
 };
 
@@ -127,13 +125,13 @@ const mapStateToProps = ({ appStore }, { item }) => ({
   date: item.date,
   isError: item.isError,
   isAdmin: appStore.isAdmin,
-  fileId: item.fileId,
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateDetailsSuccess: (fileId, size, isDirectory, date) =>
-    dispatch(updateDetailsSuccessItem(fileId, size, isDirectory, date)),
-  updateDetailsError: fileId => dispatch(updateDetailsErrorItem(fileId)),
+  updateDetailsSuccess: (absolutePath, size, isDirectory, date) =>
+    dispatch(updateDetailsSuccessItem(absolutePath, size, isDirectory, date)),
+  updateDetailsError: absolutePath =>
+    dispatch(updateDetailsErrorItem(absolutePath)),
   setPath: path => dispatch(setPathApp(path)),
   setFiles: files => dispatch(setFilesApp(files)),
   setFilesText: fileText => dispatch(setFilesTextApp(fileText)),

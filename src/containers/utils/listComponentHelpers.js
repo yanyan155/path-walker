@@ -20,15 +20,15 @@ export async function deleteFileAjax(path, isDirectory) {
 
 export async function getDetails(
   path,
-  fileId,
+  absolutePath,
   updateDetailsSuccess,
   updateDetailsError
 ) {
   try {
     const json = await fetch(path);
     const data = await json.json();
-    updateDetailsSuccess(fileId, data.size, data.type, data.modifiedDate);
+    updateDetailsSuccess(absolutePath, data.size, data.type, data.modifiedDate);
   } catch (err) {
-    updateDetailsError(fileId);
+    updateDetailsError(absolutePath);
   }
 }

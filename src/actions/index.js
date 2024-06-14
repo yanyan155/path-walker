@@ -7,7 +7,6 @@ export const setLoginError = (status, responseText) => ({
 export const setPathApp = path => ({
   type: 'SET_PATH_APP',
   path,
-  files: [],
 });
 
 export const setFilesApp = files => ({
@@ -40,18 +39,20 @@ export const setIsAdminApp = isAdmin => ({
   isAdmin,
 });
 
-export const updateDetailsSuccessItem = (fileId, size, type, date) => ({
-  type: 'UPDATE_DETAILS_SUCCESS_ITEM',
-  size,
-  fileType: type,
-  date,
-  fileId,
-  isLoaded: true,
-});
+export const updateDetailsSuccessItem = (absolutePath, size, type, date) => {
+  return {
+    type: 'UPDATE_DETAILS_SUCCESS_ITEM',
+    size,
+    fileType: type,
+    date,
+    absolutePath,
+    isLoaded: true,
+  };
+};
 
-export const updateDetailsErrorItem = fileId => ({
+export const updateDetailsErrorItem = absolutePath => ({
   type: 'UPDATE_DETAILS_ERROR_ITEM',
-  fileId,
+  absolutePath,
   isLoaded: true,
 });
 
