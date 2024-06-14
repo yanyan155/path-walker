@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import config from '../../config';
+import config from '../../../config';
 import {
   updateDetailsSuccessItem,
   updateDetailsErrorItem,
@@ -8,15 +8,15 @@ import {
   setFilesTextApp,
   setIsErrorApp,
   setIsAdminApp,
-} from '../actions';
+} from '../../actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   findPathUI,
   itemWrapperClick,
   receiveFiles,
-} from './utils/fileHelpers';
-import { deleteFileAjax, getDetails } from './utils/listComponentHelpers';
+} from '../utils/fileHelpers';
+import { deleteFileAjax, getDetails } from '../utils/listComponentHelpers';
 
 function ListComponentEl({
   isAdmin,

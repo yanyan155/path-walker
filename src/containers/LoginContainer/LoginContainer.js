@@ -1,15 +1,10 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { connect, Provider } from 'react-redux';
-import loginStore from '../reducers/loginStore';
-import { setLoginError } from '../actions';
-import { createStore } from 'redux';
+import { connect } from 'react-redux';
+import { setLoginError } from '../../actions';
 import PropTypes from 'prop-types';
-import loginSubmit from './utils/loginHelpers';
+import loginSubmit from '../utils/loginHelpers';
 
-const store = createStore(loginStore);
-
-const Login = ({ setError, status, responseText }) => {
+const LoginContainer = ({ setError, status, responseText }) => {
   const nameInputRef = React.createRef();
   const passwordInputRef = React.createRef();
   return (
@@ -65,7 +60,7 @@ const Login = ({ setError, status, responseText }) => {
   );
 };
 
-Login.propTypes = {
+LoginContainer.propTypes = {
   setError: PropTypes.func.isRequired,
   status: PropTypes.string.isRequired,
   responseText: PropTypes.string.isRequired,
@@ -81,11 +76,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setLoginError(status, responseText)),
 });
 
-const LoginEl = connect(mapStateToProps, mapDispatchToProps)(Login);
-
-render(
-  <Provider store={store}>
-    <LoginEl />
-  </Provider>,
-  document.getElementById('root')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

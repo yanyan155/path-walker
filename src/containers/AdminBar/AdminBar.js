@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setUsersApp } from '../actions';
+import { setUsersApp } from '../../actions';
 import PropTypes from 'prop-types';
 import {
   findNewUsers,
@@ -10,7 +10,7 @@ import {
   updateRolesSubmit,
   updateRolesAjax,
   findUpdatedUsers,
-} from './utils/adminHelpers';
+} from '../utils/adminHelpers';
 
 function AdminBar({ path, users, isAdmin, setUsers }) {
   useEffect(async () => {

@@ -1,19 +1,22 @@
 import React, { useEffect } from 'react';
-import { render } from 'react-dom';
-import Files from './Files.js';
-import AdminBar from './AdminBar.js';
-import { connect, Provider } from 'react-redux';
-import { setUsersApp, updateFilesApp } from '../actions';
+
+import Files from '../Files/Files';
+import AdminBar from '../AdminBar/AdminBar';
+import { connect } from 'react-redux';
+import { setUsersApp, updateFilesApp } from '../../actions';
 import PropTypes from 'prop-types';
-import { createStore } from 'redux';
-import rootReducer from '../reducers';
-import { createSocket, transformFilesArr } from './utils/socketHelpers';
-import { getName } from './utils/localStorageHelper';
+import { createSocket, transformFilesArr } from '../utils/socketHelpers';
+import { getName } from '../utils/localStorageHelper';
 import './style.css';
 
-const store = createStore(rootReducer);
-
-function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
+function AppContainer({
+  path,
+  isErrorApp,
+  isAdmin,
+  fileText,
+  setUsers,
+  updateFiles,
+}) {
   const errorMessage = 'Something went wrong! Please try again later.';
 
   // todo make replace divs with table
@@ -56,7 +59,7 @@ function App({ path, isErrorApp, isAdmin, fileText, setUsers, updateFiles }) {
   );
 }
 
-App.propTypes = {
+AppContainer.propTypes = {
   path: PropTypes.string.isRequired,
   isErrorApp: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
@@ -76,11 +79,4 @@ const mapDispatchToProps = dispatch => ({
   updateFiles: data => dispatch(updateFilesApp(data)),
 });
 
-const AppEl = connect(mapStateToProps, mapDispatchToProps)(App);
-
-render(
-  <Provider store={store}>
-    <AppEl />
-  </Provider>,
-  document.getElementById('root')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import ListComponent from './ListComponent';
+import ListComponent from '../ListComponent/ListComponent';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
 // import LazyLoad from 'react-lazyload';
@@ -12,7 +12,7 @@ import {
   receiveFiles,
   sortFiles,
   filterFiles,
-} from './utils/fileHelpers';
+} from '../utils/fileHelpers';
 
 import {
   setPathApp,
@@ -22,7 +22,7 @@ import {
   setIsAdminApp,
   setFilterFiles,
   setSortFiles,
-} from '../actions';
+} from '../../actions';
 
 function Files({
   path,
@@ -122,7 +122,6 @@ function Files({
                   )
                 }
                 className="item-wrapper"
-                key={uuidv4()}
                 data-path=".."
               >
                 <span className="item-name">/.. (go to the parent folder)</span>

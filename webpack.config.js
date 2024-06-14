@@ -3,8 +3,8 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill', './src/containers/App.js'],
-    login: ['babel-polyfill', './src/containers/Login.js'],
+    app: ['babel-polyfill', './src/containers/App/App.js'],
+    login: ['babel-polyfill', './src/containers/Login/Login.js'],
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
