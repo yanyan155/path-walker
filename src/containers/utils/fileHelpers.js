@@ -29,11 +29,7 @@ export function itemWrapperClick(
   setIsError,
   pathX
 ) {
-  // TODO: set ref here instead of DOM calculations
-  let elem = event.target;
-  if (!elem.classlist?.contains('item-wrapper')) {
-    elem = elem.closest('.item-wrapper');
-  }
+  let elem = event.currentTarget;
   const path = findPathUI(elem.dataset.path, pathX);
   receiveFiles(
     path,

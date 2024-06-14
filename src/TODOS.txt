@@ -1,5 +1,4 @@
 rethink rewrite lay lazyloading!!
-FIND IN CODE and fix TODO: set ref here instead of DOM calculations
 lint create rule for imports: first load npm packages, then from src code modules
 TODO: set 'system path' to a store and use a a prop
 
