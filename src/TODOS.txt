@@ -3,11 +3,9 @@ lint create rule for imports: first load npm packages, then from src code module
 TODO: set 'system path' to a store and use a a prop
 
 review TODOs in code
-replace 'document.' with state-ref logic
 refactor React components
 
 todo make form pretty --> google how to use lazyloading in <table> tag
-refactor html - css: https://getbootstrap.com/docs/4.6/getting-started/introduction/
 
 webpack: create different bindles for dev / prod development
 
@@ -27,4 +25,3 @@ replace proptypes with typescript
 // todo: add this project to heroku
 // todo: add hook to autoupdate heroku when push changes to git
 // todo: add tests
-// todo: add confirmation of password in mail + ability to change password via mail

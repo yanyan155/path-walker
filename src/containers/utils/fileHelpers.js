@@ -19,7 +19,7 @@ export function findPathUI(pathNode, path) {
 }
 
 export function itemWrapperClick(
-  event,
+  newPath,
   findPathUI,
   receiveFiles,
   setPath,
@@ -29,8 +29,7 @@ export function itemWrapperClick(
   setIsError,
   pathX
 ) {
-  let elem = event.currentTarget;
-  const path = findPathUI(elem.dataset.path, pathX);
+  const path = findPathUI(newPath, pathX);
   receiveFiles(
     path,
     setPath,

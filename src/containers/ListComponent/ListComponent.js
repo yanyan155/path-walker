@@ -56,10 +56,9 @@ function ListComponentEl({
   return (
     <tr
       className="item-wrapper"
-      data-path={name}
-      onClick={event =>
+      onClick={() =>
         itemWrapperClick(
-          event,
+          name,
           findPathUI,
           receiveFiles,
           setPath,

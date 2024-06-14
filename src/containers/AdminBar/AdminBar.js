@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { setUsersApp } from '../../actions';
 import PropTypes from 'prop-types';
 import {
-  findNewUsers,
   addFileClick,
   createFileAjax,
   receiveUsers,
@@ -19,9 +18,25 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
     }
   }, [isAdmin, setUsers, receiveUsers]);
 
+  const [localUsers, setLocalUsers] = useState(users);
+  useEffect(() => {
+    setLocalUsers(users);
+  }, [users, setLocalUsers]);
+
   const fileNameRef = React.createRef();
   const fileTextRef = React.createRef();
   const isDirCheckboxRef = React.createRef();
+
+  function localUpdateRoles(index, setLocalUsers) {
+    setLocalUsers(state => {
+      const newUser = {
+        name: state[index].name,
+        isAdmin: !state[index].isAdmin,
+      };
+
+      return [...state.slice(0, index), newUser, ...state.slice(index + 1)];
+    });
+  }
 
   return (
     <div className="mt-4">
@@ -86,7 +101,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
               e,
               findUpdatedUsers,
               users,
-              findNewUsers,
+              localUsers,
               updateRolesAjax
             )
           }
@@ -96,16 +111,16 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
         >
           <h3>Update roles</h3>
           <p>check checkbox to set Admin role to the user</p>
-          {users.map((el, i) => {
+          {localUsers.map((el, i) => {
             const id = `user-${i}`;
             return (
               <div key={i} className="form-check">
                 <input
-                  data-name={el.name}
                   type="checkbox"
                   className="form-check-input"
                   id={id}
                   defaultChecked={el.isAdmin}
+                  onClick={() => localUpdateRoles(i, setLocalUsers)}
                 />
                 <label className="form-check-label" htmlFor={id}>
                   {el.name}

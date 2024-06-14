@@ -5,18 +5,6 @@ export function findUpdatedUsers(users, newUsers) {
   });
 }
 
-export function findNewUsers() {
-  // TODO: put this calculations to state
-  const inputs = document.querySelectorAll('[id^="user"]');
-  const inputsArr = Array.from(inputs);
-  return inputsArr.map(el => {
-    return {
-      name: el.dataset.name,
-      isAdmin: el.checked,
-    };
-  });
-}
-
 export function addFileClick(
   event,
   path,
@@ -76,11 +64,11 @@ export function updateRolesSubmit(
   event,
   findUpdatedUsers,
   users,
-  findNewUsers,
+  localUsers,
   updateRolesAjax
 ) {
   event.preventDefault();
-  const updatedUsers = findUpdatedUsers(users, findNewUsers());
+  const updatedUsers = findUpdatedUsers(users, localUsers);
   if (updatedUsers.length > 0) {
     const data = {
       users: JSON.stringify(updatedUsers),

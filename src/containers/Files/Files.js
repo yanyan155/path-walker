@@ -105,9 +105,9 @@ function Files({
             <tr>
               <th
                 scope="row"
-                onClick={event =>
+                onClick={() =>
                   itemWrapperClick(
-                    event,
+                    '..',
                     findPathUI,
                     receiveFiles,
                     setPath,
@@ -119,7 +119,6 @@ function Files({
                   )
                 }
                 className="item-wrapper"
-                data-path=".."
               >
                 <span className="item-name">/.. (go to the parent folder)</span>
               </th>
