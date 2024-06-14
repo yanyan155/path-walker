@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 // import LazyLoad from 'react-lazyload';
 // remove react-lazyload npm package
 import PropTypes from 'prop-types';
+import Typography from '../common/Typography/Typography';
 
 import {
   findPathUI,
@@ -120,7 +121,9 @@ function Files({
                 }
                 className="item-wrapper"
               >
-                <span className="item-name">/.. (go to the parent folder)</span>
+                <Typography tag="span" className="item-name">
+                  /.. (go to the parent folder)
+                </Typography>
               </th>
             </tr>
           )}

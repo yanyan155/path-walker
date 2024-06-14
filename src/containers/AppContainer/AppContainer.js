@@ -7,6 +7,9 @@ import { setUsersApp, updateFilesApp } from '../../actions';
 import PropTypes from 'prop-types';
 import { createSocket, transformFilesArr } from '../utils/socketHelpers';
 import { getName } from '../utils/localStorageHelper';
+import Typography from '../common/Typography/Typography';
+import LogOutForm from './components/LogOutForm/LogOutForm';
+import Button from '../common/Button/Button';
 import './style.css';
 
 function AppContainer({
@@ -31,26 +34,25 @@ function AppContainer({
 
   return (
     <div>
-      <h2 className="mt-3">welcome, {getName()}! </h2>
+      <Typography tag="h3" className="mt-3">
+        welcome, {getName()}!
+      </Typography>
       <div className="d-flex">
-        <span>Your path is:</span>&emsp;
-        <strong>{path}</strong>
-        <button
+        <Typography tag="span">Your path is:</Typography>&emsp;
+        <Typography tag="strong">{path}</Typography>
+        <Button
           onClick={logoutClick}
           type="button"
-          className="btn btn-primary ml-auto"
-        >
-          Logout
-        </button>
-        <form
-          id="logout-form"
-          action="/logout"
-          method="post"
-          className="opacity-0"
-          ref={logOutForm}
-        ></form>
+          text="Logout"
+          extraClasses="ml-auto"
+        />
+        <LogOutForm logOutFormRef={logOutForm}></LogOutForm>
       </div>
-      {fileText || isErrorApp ? <p>{fileText || errorMessage}</p> : <Files />}
+      {fileText || isErrorApp ? (
+        <Typography tag="p">{fileText || errorMessage}</Typography>
+      ) : (
+        <Files />
+      )}
       {isAdmin && <AdminBar />}
     </div>
   );

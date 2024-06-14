@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import { setLoginError } from '../../actions';
 import PropTypes from 'prop-types';
 import loginSubmit from '../utils/loginHelpers';
+import Typography from '../common/Typography/Typography';
+import Button from '../common/Button/Button';
 
 const LoginContainer = ({ setError, status, responseText }) => {
   const nameInputRef = React.createRef();
   const passwordInputRef = React.createRef();
   return (
     <>
-      <h1>Login form</h1>
-      <p>Please log in to continue</p>
+      <Typography tag="h1">Login form</Typography>
+      <Typography tag="p">Please log in to continue</Typography>
       <form
         onSubmit={event => {
           loginSubmit(
@@ -24,9 +26,9 @@ const LoginContainer = ({ setError, status, responseText }) => {
         method="post"
       >
         {status ? (
-          <p className="text-danger">
+          <Typography tag="p" className="text-danger">
             Error:{status} {responseText}
-          </p>
+          </Typography>
         ) : null}
         <div className="form-group">
           <label htmlFor="name">user name</label>
@@ -52,9 +54,8 @@ const LoginContainer = ({ setError, status, responseText }) => {
             ref={passwordInputRef}
           />
         </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+
+        <Button type="submit" text="Submit" />
       </form>
     </>
   );

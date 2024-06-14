@@ -10,6 +10,8 @@ import {
   updateRolesAjax,
   findUpdatedUsers,
 } from '../utils/adminHelpers';
+import Typography from '../common/Typography/Typography';
+import Button from '../common/Button/Button';
 
 function AdminBar({ path, users, isAdmin, setUsers }) {
   useEffect(async () => {
@@ -40,7 +42,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
 
   return (
     <div className="mt-4">
-      <h2>Admin bar</h2>
+      <Typography tag="h2">Admin bar</Typography>
       <form
         onSubmit={e =>
           addFileClick(
@@ -56,7 +58,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
         action="/createFile"
         method="post"
       >
-        <h3>create new file / directory</h3>
+        <Typography tag="h3">create new file / directory</Typography>
         <div className="form-group">
           <label htmlFor="fileName">file name</label>
           <input
@@ -90,9 +92,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
             isDirectory
           </label>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Create
-        </button>
+        <Button type="submit" text="Create" />
       </form>
       {users.length > 0 && (
         <form
@@ -109,8 +109,10 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
           action="/updateRoles"
           method="post"
         >
-          <h3>Update roles</h3>
-          <p>check checkbox to set Admin role to the user</p>
+          <Typography tag="h3">Update roles</Typography>
+          <Typography tag="p">
+            check checkbox to set Admin role to the user
+          </Typography>
           {localUsers.map((el, i) => {
             const id = `user-${i}`;
             return (
@@ -129,9 +131,7 @@ function AdminBar({ path, users, isAdmin, setUsers }) {
             );
           })}
 
-          <button type="submit" className="btn btn-primary">
-            update roles
-          </button>
+          <Button type="submit" text="update roles" />
         </form>
       )}
     </div>
